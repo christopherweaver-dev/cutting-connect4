@@ -115,11 +115,19 @@
       const isMyTurn = (gs.currentPlayer === myColor);
 
       if (gs.waitingForPlacement) {
-        document.getElementById('quiz-area').style.display = 'none';
-        document.getElementById('board-section').classList.add('visible');
         document.getElementById('next-btn').className = '';
-        if (isMyTurn) { document.getElementById('board-section').classList.add('picking'); document.getElementById('waiting-overlay').style.display='none'; }
-        else { document.getElementById('board-section').classList.remove('picking'); document.getElementById('waiting-overlay').style.display='flex'; document.getElementById('waiting-overlay').textContent='Opponent is placing their counter...'; }
+        if (isMyTurn) {
+          document.getElementById('quiz-area').style.display = 'none';
+          document.getElementById('board-section').classList.add('visible');
+          document.getElementById('board-section').classList.add('picking');
+          document.getElementById('waiting-overlay').style.display = 'none';
+        } else {
+          document.getElementById('quiz-area').style.display = '';
+          document.getElementById('board-section').classList.remove('visible');
+          document.getElementById('board-section').classList.remove('picking');
+          document.getElementById('waiting-overlay').style.display = 'flex';
+          document.getElementById('waiting-overlay').textContent = 'Opponent is placing their counter...';
+        }
         return;
       }
 
@@ -138,7 +146,7 @@
       document.getElementById('waiting-overlay').style.display = 'none';
       document.getElementById('next-btn').className = '';
 
-      const qChanged = !prev || prev.questionIndex !== gs.questionIndex;
+      const qChanged = !prev || prev.questionIndex !== gs.questionIndex || prev.pendingNextQuestion;
       if (qChanged) { loadQuestionUI(gs.questionIndex, gs.disabledOptions||[]); }
       else { const pd=prev?.disabledOptions||[], cd=gs.disabledOptions||[]; if(pd.length!==cd.length) applyDisabled(cd); }
 
