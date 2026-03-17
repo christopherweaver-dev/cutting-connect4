@@ -80,6 +80,13 @@
       onValue(ref(db, `rooms/${code}`), snap => {
         if (!snap.exists()) return;
         const prev = gameState; gameState = snap.val();
+        // Firebase omits null array entries — normalize board back to a full flat array
+        const raw = gameState.board;
+        const board = Array(ROWS*COLS).fill(null);
+        if (raw && typeof raw === 'object') {
+          Object.keys(raw).forEach(k => { board[+k] = raw[k]; });
+        }
+        gameState.board = board;
         if (gameState.redJoined && gameState.yellowJoined) {
           document.getElementById('lobby-screen').style.display = 'none';
           document.getElementById('game-screen').style.display = 'flex';
