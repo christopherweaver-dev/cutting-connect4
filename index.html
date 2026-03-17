@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cutting Skills – Connect 4 Quiz</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,6 +37,23 @@
       font-size: 0.95rem;
       color: rgba(255,255,255,0.85);
       margin-top: 4px;
+    }
+    #qr-container {
+      margin-top: 12px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    #qr-container canvas, #qr-container img {
+      border-radius: 8px;
+      border: 3px solid rgba(255,255,255,0.85);
+      display: block;
+    }
+    #qr-container small {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.02em;
     }
 
     /* ── Main Layout ── */
@@ -274,6 +292,10 @@
 <header>
   <h1>✂️ Cutting Skills Quiz</h1>
   <p>Answer correctly to place your counter — get 4 in a row to win!</p>
+  <div id="qr-container">
+    <div id="qrcode"></div>
+    <small>christopherweaver-dev.github.io/cutting-connect4</small>
+  </div>
 </header>
 
 <main>
@@ -841,6 +863,15 @@ function initGame() {
 }
 
 initGame();
+
+new QRCode(document.getElementById('qrcode'), {
+  text: 'https://christopherweaver-dev.github.io/cutting-connect4/',
+  width: 100,
+  height: 100,
+  colorDark: '#1a1a2e',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.M
+});
 </script>
 </body>
 </html>
